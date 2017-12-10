@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.ecbook.proyectoecbook.R;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,8 +26,16 @@ import static android.app.Activity.RESULT_OK;
 
 public class PublicarFragment extends Fragment{
 
-    FirebaseDatabase firebasedb = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference;
+    //FirebaseDatabase firebasedb = FirebaseDatabase.getInstance();
+    //DatabaseReference databaseReference;
+
+    public final static String FIREBASE_REFERENCES1 = "Libro_VENTA";
+    FirebaseDatabase database1 = FirebaseDatabase.getInstance();
+    DatabaseReference myRef1 = database1.getReference(FIREBASE_REFERENCES1);
+
+    public final static String FIREBASE_REFERENCES2 = "Libro_INTERCAMBIO";
+    FirebaseDatabase database2 = FirebaseDatabase.getInstance();
+    DatabaseReference myRef2 = database2.getReference(FIREBASE_REFERENCES2);
 
     String[] tipoVentIntercam = new String[2];
     EditText NombLibro, autorLibro, telefono, generoLibro, precio, envio, editTextEmail;
@@ -54,7 +63,9 @@ public class PublicarFragment extends Fragment{
         enterCurrentLocation = (TextView) rootView.findViewById(R.id.show_selected_location);
 
         subirProducto = (Button) rootView.findViewById(R.id.buttonSubirProducto);
-        spinner = (Spinner)rootView.findViewById(R.id.spinnerInterVenta);
+        spinner = (Spinner)rootView.findViewById(R.id.rbVenta);
+
+        Integer indexValue = spinner.getSelectedItemPosition();
 
         seleccionarHora = (Button)rootView.findViewById(R.id.buttonHora);
         seleccionarHora.setOnClickListener(new View.OnClickListener() {
@@ -77,58 +88,112 @@ public class PublicarFragment extends Fragment{
             }
         });
 
-
         subirProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(NombLibro.getText().toString().equals("") || autorLibro.getText().toString().equals("") || telefono.getText().toString().equals("") || generoLibro.getText().toString().equals("") ||
-                        precio.getText().toString().equals("") || editTextEmail.getText().toString().equals("")) {
-                    Toast.makeText(getContext(),"Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
-                } else if(envio.getText().toString().equals("")) {
-                    Toast.makeText(getContext(),"Complete el campo envio poniendo SI o NO", Toast.LENGTH_SHORT).show();
-                }else {
-                    InfoBooks libros = new InfoBooks();
-                    databaseReference = FirebaseDatabase.getInstance().getReference();
-                    String Key = databaseReference.child("post").push().getKey();
+                if(spinner.getSelectedItemPosition() == 1){
+                    if (NombLibro.getText().toString().equals("") || autorLibro.getText().toString().equals("") || telefono.getText().toString().equals("") || generoLibro.getText().toString().equals("")
+                            || editTextEmail.getText().toString().equals("")) {
+                        Toast.makeText(getContext(), "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
+                    } else if (envio.getText().toString().equals("Si") && envio.getText().toString().equals("") && envio.getText().toString().equals("No")) {
+                        Toast.makeText(getContext(), "Complete el campo envio poniendo SI o NO", Toast.LENGTH_SHORT).show();
+                    } else {
+                        InfoBooks libros = new InfoBooks();
+                        /*databaseReference = FirebaseDatabase.getInstance().getReference();
+                        String Key = databaseReference.child("post").push().getKey();*/
 
-                    libros.setKeyLibro(Key);
-                    libros.setIntercVenta(spinner.getSelectedItem().toString());
-                    libros.setNombreLibro(NombLibro.getText().toString());
-                    libros.setAutorLibro(autorLibro.getText().toString());
-                    libros.setTelefono(telefono.getText().toString());
-                    libros.setGenero(generoLibro.getText().toString());
-                    libros.setPrecio(Integer.parseInt(precio.getText().toString()));
-                    libros.setEnvio(envio.getText().toString());
-                    libros.setEmail(editTextEmail.getText().toString());
-                    libros.setLugarQuedada(enterCurrentLocation.getText().toString());
+                        //libros.setKeyLibro(Key);
+                        libros.setIntercVenta(spinner.getSelectedItem().toString());
+                        libros.setNombreLibro(NombLibro.getText().toString());
+                        libros.setAutorLibro(autorLibro.getText().toString());
+                        libros.setTelefono(telefono.getText().toString());
+                        libros.setGenero(generoLibro.getText().toString());
+                        //libros.setPrecio(Integer.parseInt(precio.getText().toString()));
+                        libros.setEnvio(envio.getText().toString());
+                        libros.setEmail(editTextEmail.getText().toString());
+                        libros.setLugarQuedada(enterCurrentLocation.getText().toString());
 
-                    //hora
-                    libros.setHoraQuedada(horaPuesta.getText().toString());
-
-
-
-                    //el porcentaje ese es para sustituir el primer string or el segundo
-                    DatabaseReference miRef = firebasedb.getReference(String.format("nuevo_libro: %s->%s", libros.getIntercVenta(), libros.getNombreLibro()));
-                    posicion = spinner.getSelectedItemPosition();
+                        libros.setUserid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        //hora
+                        libros.setHoraQuedada(horaPuesta.getText().toString());
 
 
-                    databaseReference.child("Libros").child(Key).setValue(libros);
-                    //miRef.setValue(torneo);
+                        //el porcentaje ese es para sustituir el primer string or el segundo
+                        myRef2.push().setValue(libros);
+                        //DatabaseReference miRef = firebasedb.getReference(String.format("nuevo_libro: %s->%s", libros.getIntercVenta(), libros.getNombreLibro()));
+                        posicion = spinner.getSelectedItemPosition();
 
-                    Toast.makeText(getContext(),"Articulo subido!", Toast.LENGTH_SHORT).show();
-                    //limpiamos los campos para que vuelva a introducir datos
-                    NombLibro.setText("");
-                    autorLibro.setText("");
-                    telefono.setText("");
-                    generoLibro.setText("");
-                    precio.setText("");
-                    envio.setText("");
-                    horaPuesta.setText("");
-                    editTextEmail.setText("");
-                    enterCurrentLocation.setText("");
+
+                        //databaseReference.child("Libros").child(Key).setValue(libros);
+
+                        //miRef.setValue(torneo);
+
+                        Toast.makeText(getContext(), "Articulo subido!", Toast.LENGTH_SHORT).show();
+                        //limpiamos los campos para que vuelva a introducir datos
+                        NombLibro.setText("");
+                        autorLibro.setText("");
+                        telefono.setText("");
+                        generoLibro.setText("");
+                        precio.setText("");
+                        envio.setText("");
+                        horaPuesta.setText("");
+                        editTextEmail.setText("");
+                        enterCurrentLocation.setText("");
+
+                    }
+
+                }else{
+                    if (NombLibro.getText().toString().equals("") || autorLibro.getText().toString().equals("") || telefono.getText().toString().equals("") || generoLibro.getText().toString().equals("") ||
+                            precio.getText().toString().equals("") || editTextEmail.getText().toString().equals("")) {
+                        Toast.makeText(getContext(), "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
+                    } else if (envio.getText().toString().equals("")) {
+                        Toast.makeText(getContext(), "Complete el campo envio poniendo SI o NO", Toast.LENGTH_SHORT).show();
+                    } else {
+                        InfoBooks libros = new InfoBooks();
+                        /*databaseReference = FirebaseDatabase.getInstance().getReference();
+                        String Key = databaseReference.child("post").push().getKey();*/
+
+                        //libros.setKeyLibro(Key);
+                        libros.setIntercVenta(spinner.getSelectedItem().toString());
+                        libros.setNombreLibro(NombLibro.getText().toString());
+                        libros.setAutorLibro(autorLibro.getText().toString());
+                        libros.setTelefono(telefono.getText().toString());
+                        libros.setGenero(generoLibro.getText().toString());
+                        libros.setPrecio(Integer.parseInt(precio.getText().toString()));
+                        libros.setEnvio(envio.getText().toString());
+                        libros.setEmail(editTextEmail.getText().toString());
+                        libros.setLugarQuedada(enterCurrentLocation.getText().toString());
+
+                        libros.setUserid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        //hora
+                        libros.setHoraQuedada(horaPuesta.getText().toString());
+
+
+                        //el porcentaje ese es para sustituir el primer string or el segundo
+                        myRef1.push().setValue(libros);
+                        //DatabaseReference miRef = firebasedb.getReference(String.format("nuevo_libro: %s->%s", libros.getIntercVenta(), libros.getNombreLibro()));
+                        posicion = spinner.getSelectedItemPosition();
+
+
+                        //databaseReference.child("Libros").child(Key).setValue(libros);
+
+                        //miRef.setValue(torneo);
+
+                        Toast.makeText(getContext(), "Articulo subido!", Toast.LENGTH_SHORT).show();
+                        //limpiamos los campos para que vuelva a introducir datos
+                        NombLibro.setText("");
+                        autorLibro.setText("");
+                        telefono.setText("");
+                        generoLibro.setText("");
+                        precio.setText("");
+                        envio.setText("");
+                        horaPuesta.setText("");
+                        editTextEmail.setText("");
+                        enterCurrentLocation.setText("");
+
+                    }
 
                 }
-
             }
         });
 

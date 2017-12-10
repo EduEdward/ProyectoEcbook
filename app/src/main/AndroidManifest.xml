@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/recycleee"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -32,8 +32,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDtf7Ou7uARKqffV59_0ieiPbvZ_zia_yQ" />
 
-        <activity android:name=".proyectoecbook.Explorar.Pop"
-                  android:theme="@style/AppTheme.CustomTheme"></activity>
+        <activity
+            android:name=".proyectoecbook.Explorar.Pop"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name=".proyectoecbook.Chat_1" />
+        <activity android:name=".proyectoecbook.Mis_Publicaciones.Mis_Publicaciones"></activity>
     </application>
 
 </manifest>

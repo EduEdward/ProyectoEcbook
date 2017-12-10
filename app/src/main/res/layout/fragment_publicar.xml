@@ -26,13 +26,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/spinnerInterVenta"
+        android:layout_below="@+id/rbVenta"
         android:drawableLeft="@drawable/openbook"
         android:hint="Titulo del libro"
         android:textColor="#FFFFFF" />
 
     <Spinner
-        android:id="@+id/spinnerInterVenta"
+        android:id="@+id/rbVenta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -90,7 +90,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/editTextEnvio"
         android:hint="Email"
-        android:drawableLeft="@drawable/email"/>
+        android:drawableLeft="@drawable/email"
+        android:textColor="@color/fondoBlanco"/>
 
     <EditText
         android:id="@+id/editTextTelefono"
@@ -137,8 +138,9 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/show_selected_location"
         android:background="@drawable/background_login_button"
+        android:textColor="#f16f7d"
         android:text="Subir Producto"
-        android:textColor="#f16f7d" />
+         />
 
     <TextView
         android:id="@+id/textViewHora"

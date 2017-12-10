@@ -1,5 +1,6 @@
 package com.ecbook.proyectoecbook.proyectoecbook.Explorar;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,16 @@ import java.util.List;
 
 public class AdapterExplorar extends RecyclerView.Adapter<AdapterExplorar.LibrosviewHolder>{
     List<InfoBooks> libros;
+    Context c;
     private RecyclerViewOnClickListener mRecyclerViewOnClickListener;
 
     public AdapterExplorar(List<InfoBooks> libros) {
         this.libros = libros;
+    }
+
+    public AdapterExplorar(Context c, List<InfoBooks> libros) {
+        this.libros = libros;
+        this.c = c;
     }
 
 
@@ -53,6 +60,7 @@ public class AdapterExplorar extends RecyclerView.Adapter<AdapterExplorar.Libros
     public void setRecyclerViewOnClickListener(RecyclerViewOnClickListener r){
         mRecyclerViewOnClickListener = r;
     }
+
 
     public class LibrosviewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 

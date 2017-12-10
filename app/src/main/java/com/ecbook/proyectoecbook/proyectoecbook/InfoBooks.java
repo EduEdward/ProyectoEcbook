@@ -19,6 +19,7 @@ public class InfoBooks implements Parcelable{
     private String horaQuedada;
     private String email;
 
+    private String userid;
 
 
     public InfoBooks() {
@@ -28,7 +29,7 @@ public class InfoBooks implements Parcelable{
         this.nombreLibro = nombreLibro;
     }
 
-    public InfoBooks(String keyLibro, String intercVenta, String nombreLibro, String autorLibro, String telefono, int precio, String genero, String envio, String horaQuedada, String lugarQuedada, String email) {
+    public InfoBooks(String keyLibro, String intercVenta, String nombreLibro, String autorLibro, String telefono, int precio, String genero, String envio, String horaQuedada, String lugarQuedada, String email, String userid) {
         this.keyLibro = keyLibro;
         this.intercVenta = intercVenta;
         this.nombreLibro = nombreLibro;
@@ -40,6 +41,7 @@ public class InfoBooks implements Parcelable{
         this.horaQuedada = horaQuedada;
         this.lugarQuedada = lugarQuedada;
         this.email = email;
+        this.userid = userid;
     }
 
     protected InfoBooks(Parcel in) {
@@ -54,6 +56,7 @@ public class InfoBooks implements Parcelable{
         horaQuedada = in.readString();
         lugarQuedada = in.readString();
         email = in.readString();
+        userid = in.readString();
     }
 
     public static final Creator<InfoBooks> CREATOR = new Creator<InfoBooks>() {
@@ -86,6 +89,15 @@ public class InfoBooks implements Parcelable{
         parcel.writeString(horaQuedada);
         parcel.writeString(lugarQuedada);
         parcel.writeString(email);
+        parcel.writeString(userid);
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getIntercVenta() {

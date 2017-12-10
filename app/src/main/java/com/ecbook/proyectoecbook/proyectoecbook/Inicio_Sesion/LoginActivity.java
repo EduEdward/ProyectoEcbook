@@ -30,6 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Button btnregistrase;
+
+    //public static String nombre = "email";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +78,6 @@ public class LoginActivity extends AppCompatActivity {
         if (pass.equals("") || user.equals("")) {
             Toast.makeText(LoginActivity.this, "por favor rellene los campos", Toast.LENGTH_SHORT).show();
 
-        }else if(user.toString().equals("admin@admin.com") && pass.toString().equals("admin")){
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            Toast.makeText(LoginActivity.this, "Bienvenido Admin", Toast.LENGTH_SHORT).show();
-            startActivity(i);
-
         } else {
             //firebaseAuth.signInWithCredential()
             firebaseAuth.signInWithEmailAndPassword(user, pass)
@@ -92,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Exito al Loguearse", Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(LoginActivity.this, MainActivityTabs.class);
                                 i.putExtra("Email", firebaseAuth.getCurrentUser().getEmail());
+                                //i.putExtra(nombre,emailLogin.getText().toString());
                                 startActivity(i);
                             }else{
                                 Log.e("ERROR", task.getException().toString());

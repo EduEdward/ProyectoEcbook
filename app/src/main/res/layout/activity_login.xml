@@ -36,8 +36,8 @@
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textPersonName"
-        android:text="edu@gmail.com"
-        android:textColorHint="@color/common_plus_signin_btn_text_dark" />
+        android:textColorHint="@color/common_plus_signin_btn_text_dark"
+        android:textColor="@color/fondoBlanco"/>
 
     <Button
         android:text="@string/logIn"

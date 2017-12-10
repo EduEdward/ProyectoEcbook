@@ -1,8 +1,10 @@
 package com.ecbook.proyectoecbook.proyectoecbook;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -21,6 +23,8 @@ import android.widget.TextView;
 
 import com.ecbook.proyectoecbook.R;
 import com.ecbook.proyectoecbook.proyectoecbook.Explorar.ExplorarFragment;
+import com.ecbook.proyectoecbook.proyectoecbook.Mis_Publicaciones.Mis_Publicaciones;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivityTabs extends AppCompatActivity {
 
@@ -39,11 +43,15 @@ public class MainActivityTabs extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    //String nombre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity_tabs);
-        final int [] ICONS = new int[]{R.drawable.publicicon, R.drawable.search};
+        final int [] ICONS = new int[]{R.drawable.publicicon, R.drawable.search}; //R.drawable.mail
+
+        //Intent intent= getIntent();
+        //nombre = intent.getStringExtra(LoginActivity.nombre);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +68,7 @@ public class MainActivityTabs extends AppCompatActivity {
 
         tabLayout.getTabAt(0).setIcon(ICONS[0]);
         tabLayout.getTabAt(1).setIcon(ICONS[1]);
+        //tabLayout.getTabAt(2).setIcon(ICONS[2]);
 
 
 
@@ -82,10 +91,46 @@ public class MainActivityTabs extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            crear_dialogo2().show();
+            return true;
+        }
+        if(id == R.id.action_mPublicaciones){
+            Intent i = new Intent(MainActivityTabs.this, Mis_Publicaciones.class);
+            startActivity(i);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    //PARA CREAR VENTANAS DE DIALOGO
+
+    private Dialog crear_dialogo() {
+        AlertDialog.Builder builder = new
+                AlertDialog.Builder(MainActivityTabs.this);
+        builder.setMessage("Ventana de diálogo de ejemplo");
+        return builder.create();
+    }
+
+    //DIALOGO DE ACEPTAR O CANCELAR
+    private Dialog crear_dialogo2(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityTabs.this);
+        builder.setCancelable(false);
+        builder.setMessage("¿Desea sair de la app?");
+        builder.setTitle("Aviso:");
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().signOut();
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        return builder.create();
     }
 
     /**
@@ -114,8 +159,7 @@ public class MainActivityTabs extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_activity_tabs, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
@@ -146,6 +190,9 @@ public class MainActivityTabs extends AppCompatActivity {
                 case 1:
                     ExplorarFragment explorarFragment = new ExplorarFragment();
                     return explorarFragment;
+                /*case 2:
+                    Chat chatFrgament = new Chat();
+                    return chatFrgament;*/
 
             }
             return null;
@@ -164,6 +211,8 @@ public class MainActivityTabs extends AppCompatActivity {
                     return "";
                 case 1:
                     return "";
+                /*case 2:
+                    return "";*/
 
             }
             return null;

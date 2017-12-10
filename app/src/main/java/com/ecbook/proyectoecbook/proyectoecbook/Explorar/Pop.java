@@ -1,5 +1,6 @@
 package com.ecbook.proyectoecbook.proyectoecbook.Explorar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import com.ecbook.proyectoecbook.R;
 
 public class Pop extends AppCompatActivity {
     TextView tvEmail, tvTelf;
-    ImageView ivX;
+    ImageView ivX, iv2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,10 +10,14 @@
     <string name="email">Email</string>
     <string name="contr">Contraseña</string>
     <string name="Login">Entra</string>
-    <string name="title_activity_main_activity_user">MainActivityUser</string>
-    <string name="title_activity_main_activity_tabs">MainActivityTabs</string>
+    <string name="title_activity_main_activity_user">EcBook</string>
+    <string name="title_activity_main_activity_tabs">EcBook</string>
+
+    <string name="mensajeDialog">¿Desea salir de la app?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="aceptar">Al registrarte o iniciar sesión, aceptas nuestros Términos y Condiciones y la Política de Privacidad</string>
+
 </resources>
 
